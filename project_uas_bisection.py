@@ -1,5 +1,5 @@
 import streamlit as st
-st.title("Project UAS Matematika Komputasi Bisection")
+st.title("Project UAS Matematika Komputasi Metode Bisection")
 st.write("Halo, ini aplikasi pertama saya di Streamlit.")
 
 # Import Library
@@ -8,10 +8,26 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Input Data dari Pengguna
-fungsi = input("Masukkan fungsi yang ingin dicari akarnya: ")
-batas_bawah = float(input("Masukkan batas bawah interval: "))
-batas_atas = float(input("Masukkan batas atas interval: "))
-toleransi = float(input("Masukkan tingkat ketelitian yang diinginkan: "))
+fungsi = st.text_input(
+    "Masukkan fungsi yang ingin dicari akarnya",
+    "x**3 - 4*x - 9"
+)
+
+batas_bawah = st.number_input(
+    "Masukkan batas bawah interval",
+    value=2.0
+)
+
+batas_atas = st.number_input(
+    "Masukkan batas atas interval",
+    value=3.0
+)
+
+toleransi = st.number_input(
+    "Masukkan tingkat ketelitian",
+    value=0.0001,
+    format="%.4f"
+)
 
 # Membuat Fungsi Matematika
 def hitung_fungsi(x):
@@ -21,7 +37,7 @@ def hitung_fungsi(x):
 if hitung_fungsi(batas_bawah) * hitung_fungsi(batas_atas) > 0:
     print("Interval yang dimasukkan tidak memenuhi syarat Metode Bisection")
 else:
-    print("Interval memenuhi syarat")
+    st.success("Interval memenuhi syarat")
 
 # Perhitungan Metode Bisection
 
@@ -49,8 +65,8 @@ while abs(batas_atas - batas_bawah) > toleransi:
 
 akar = (batas_bawah + batas_atas) / 2
 
-print("Akar persamaan =", akar)
-print("Jumlah iterasi =", jumlah_iterasi)
+st.write("Akar persamaan =", akar)
+st.write("Jumlah iterasi =", jumlah_iterasi)
 
 # Menampilkan Tabel Iterasi
 
@@ -64,7 +80,7 @@ tabel_iterasi = pd.DataFrame(
     ]
 )
 
-tabel_iterasi
+st.dataframe(tabel_iterasi)
 
 
 # Menampilkan Grafik Fungsi
@@ -80,4 +96,4 @@ plt.title("Grafik Fungsi")
 plt.xlabel("Nilai x")
 plt.ylabel("Nilai f(x)")
 plt.grid()
-plt.show()
+st.pyplot(plt)
